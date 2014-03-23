@@ -54,12 +54,15 @@ module RoadtripService
     config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
-    config.assets.enabled = true
+    config.assets.enabled = false
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
     # http://stackoverflow.com/questions/20361428/rails-i18n-validation-deprecation-warning
     config.i18n.enforce_available_locales = false
+
+    # http://stackoverflow.com/questions/14887882/push-rails-cleardb-app-to-heroku-error-cant-connect-to-mysql-server-on-127
+    config.assets.initialize_on_precompile = false
   end
 end

@@ -13,11 +13,15 @@ module App::Controllers
       when Mysql2::Error
         is_duplicate_entry = /Duplicate entry/.match(exception.message)
         head status: 409 if is_duplicate_entry
-        head status: 500 unless is_duplicate_entry
+        server_error(exception) unless is_duplicate_entry
       else
-        log_exception(exception)
-        head status: 500
+        server_error(exception)
       end
+    end
+
+    def server_error(exception)
+      log_exception(exception)
+      head status: 500
     end
 
     def log_exception(exception)

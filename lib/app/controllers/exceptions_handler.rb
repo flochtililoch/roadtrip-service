@@ -8,20 +8,23 @@ module App::Controllers
 
     def handle_exception(exception)
       case exception
-      when ActiveRecord::RecordInvalid
-        head status: 400
+      when TypeError, ActiveRecord::RecordInvalid, JSON::ParserError
+        error(exception, 400)
       when Mysql2::Error
         is_duplicate_entry = /Duplicate entry/.match(exception.message)
-        head status: 409 if is_duplicate_entry
-        server_error(exception) unless is_duplicate_entry
+        if is_duplicate_entry
+          error(exception, 409)
+        else
+          error(exception)
+        end
       else
-        server_error(exception)
+        error(exception)
       end
     end
 
-    def server_error(exception)
+    def error(exception, status = 500)
       log_exception(exception)
-      head status: 500
+      head status: status
     end
 
     def log_exception(exception)

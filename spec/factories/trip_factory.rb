@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :trip, class: Trip do
-    data 'foo'
+    data  { {foo: 'bar'} }
   end
 
 end

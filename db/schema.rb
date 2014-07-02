@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140318045134) do
+ActiveRecord::Schema.define(:version => 20140622185143) do
 
-  create_table "trips", :force => true do |t|
+  create_table "beacons", :force => true do |t|
     t.binary   "uuid",       :limit => 16,       :null => false
     t.binary   "data",       :limit => 16777215, :null => false
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
   end
 
-  add_index "trips", ["uuid"], :name => "index_trips_on_uuid", :unique => true
+  add_index "beacons", ["uuid"], :name => "index_beacons_on_uuid", :unique => true
 
 end

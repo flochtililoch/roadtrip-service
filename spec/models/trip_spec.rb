@@ -23,7 +23,7 @@ describe Trip do
       context 'with new data' do
 
         it 'creates a uuid from the data' do
-          @trip.uuid.should == UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, @data).raw
+          @trip.uuid.should == UUIDTools::UUID.md5_create(UUIDTools::UUID_DNS_NAMESPACE, @data.to_json).raw
         end
 
       end

@@ -1,3 +1,3 @@
 RoadtripService::Application.routes.draw do
-  resources :trips, only: [:create, :index]
+  resources :beacons, only: [:create, :index]
 end

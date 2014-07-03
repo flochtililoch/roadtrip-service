@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe TripsController do
+describe BeaconsController do
 
   before(:each) do
-    @expected_trip_json_schema = {
+    @expected_beacon_json_schema = {
       'type' => 'object',
       'additionalProperties' => false,
       'properties' => {
@@ -11,18 +11,18 @@ describe TripsController do
         'data' => {}
       }
     }
-    @expected_trips_json_schema = {
+    @expected_beacons_json_schema = {
       'type' => 'array',
-      'items' => @expected_trip_json_schema
+      'items' => @expected_beacon_json_schema
     }
   end
 
-  describe 'create new trip' do
+  describe 'create new beacon' do
 
     context 'without data' do
 
       it 'fails and return a bad request status' do
-        post('/trips')
+        post('/beacons')
         response.status.should == 400
       end
 
@@ -35,7 +35,7 @@ describe TripsController do
       end
 
       it 'fails and return a bad request status' do
-        post('/trips', {
+        post('/beacons', {
           data: @data
         })
         response.status.should == 400
@@ -45,17 +45,17 @@ describe TripsController do
     context 'with data' do
 
       before(:each) do
-        @data = FactoryGirl.attributes_for(:trip)[:data].to_json
+        @data = FactoryGirl.attributes_for(:beacon)[:data].to_json
       end
 
       context 'with existing data' do
 
         before(:each) do
-          FactoryGirl.create(:trip)
+          FactoryGirl.create(:beacon)
         end
 
         it 'fails and return a resource conflict status' do
-          post('/trips', {
+          post('/beacons', {
             data: @data
           })
           response.status.should == 409
@@ -66,12 +66,12 @@ describe TripsController do
       context 'with new data' do
 
         it 'is succesful and return a hashed version of the data' do
-          post('/trips', {
+          post('/beacons', {
             data: @data
           })
           response.status.should == 201
           json_parsed_body_response = JSON.parse(response.body)
-          JSON::Schema.validate(json_parsed_body_response, @expected_trip_json_schema)
+          JSON::Schema.validate(json_parsed_body_response, @expected_beacon_json_schema)
         end
 
       end
@@ -80,19 +80,19 @@ describe TripsController do
 
   end
 
-  describe 'retrieve trips' do
+  describe 'retrieve beacons' do
 
     before(:each) do
-      FactoryGirl.create(:trip, :data => {foo: 'bar'})
-      FactoryGirl.create(:trip, :data => {foo: 'baz'})
-      FactoryGirl.create(:trip, :data => {bar: 'baz'})
+      FactoryGirl.create(:beacon, :data => {foo: 'bar'})
+      FactoryGirl.create(:beacon, :data => {foo: 'baz'})
+      FactoryGirl.create(:beacon, :data => {bar: 'baz'})
     end
 
-    it 'returns a collection of trips' do
-      get('/trips')
+    it 'returns a collection of beacons' do
+      get('/beacons')
       response.status.should == 200
       json_parsed_body_response = JSON.parse(response.body)
-      JSON::Schema.validate(json_parsed_body_response, @expected_trips_json_schema)
+      JSON::Schema.validate(json_parsed_body_response, @expected_beacons_json_schema)
     end
 
   end

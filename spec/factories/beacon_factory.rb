@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :trip, class: Trip do
+  factory :beacon, class: Beacon do
     data  { {foo: 'bar'} }
   end
 

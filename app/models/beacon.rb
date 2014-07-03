@@ -1,4 +1,4 @@
-class Trip < ActiveRecord::Base
+class Beacon < ActiveRecord::Base
 
   attr_accessible :data, :uuid
   before_create :digest_data
